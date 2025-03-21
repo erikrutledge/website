@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Erik's Webpage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/smaller.css">
+</head>
+
+<body>
+<main>
+
+  <div id="previewTrack" data-mouse-down-at="0" data-prev-percentage="0">
+    <div id="wrapper">
+     <div id="text">
+      <a href="Pages/contact.html">
+          <p class="intro">
+          <br>Erik<br>
+          Rutledge<br>
+          ----------------<br>
+          Software<br>
+          Engineer<br>
+          ----------------<br>
+          Portfolio<br>
+          </p>
+          <p class="contact">Contact</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="gesture">
+    <img id="clickDrag" src="media/click_drag.gif" draggable="false">
+  </div>
+</main>
+<script src="scripts/gesture.js"></script>
+<script>
+  async function loadProjects() {
+    const response = await fetch('./scripts/projects.json');
+    const data = await response.json();
+    const projects = data.projects.reverse(); // Reverse the order of projects
+    
+    const previewTrack = document.getElementById('previewTrack');
+    projects.forEach(project => {
+      const projectLink = document.createElement('a');
+      projectLink.href = `./pages/template.html?project=${project.id}`;
+      projectLink.style.textDecoration = 'none';
+      projectLink.innerHTML = `
+        <div id="wrapper">
+          <img class="image" src="./media/${project.id}/thumbnail.png" draggable="false"/>
+          <p class="text">${project.title}</p>
+        </div>
+      `;
+      previewTrack.appendChild(projectLink);
+    });
+  }
+
+  window.onload = () => {
+    loadProjects();
+  };
+</script>
+</body>
+</html>
